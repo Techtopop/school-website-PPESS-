@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-brand: #14275a;
+  --color-brand-light: #3d58a8;
+  --color-accent: #c8302f;
+  --color-cream: #faf7f2;
+  --color-ink: #1c2233;
+  --font-display: "Fraunces", "Noto Serif Devanagari", Georgia, "Times New Roman", serif;
+  --font-sans: "Plus Jakarta Sans", "Mukta", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-padding-top: 5rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-cream);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+.marquee-track { animation: marquee 40s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
+
+/* Lite mode: no motion, for slow connections */
+html[data-lite] *, html[data-lite] *::before, html[data-lite] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Nepali-inspired (dhaka-style) pattern border */
+.dhaka {
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='14' viewBox='0 0 28 14'%3E%3Cpath d='M0 14 7 0l7 14z' fill='%23c8302f'/%3E%3Cpath d='M14 14 21 0l7 14z' fill='%2314275a'/%3E%3Cpath d='M7 14 10.5 7 14 14zM21 14l3.5-7L28 14z' fill='%23faf7f2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+}
+
+/* Skip link */
+.skip-link {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  background: var(--color-accent); color: #fff; padding: .75rem 1.25rem; border-radius: 9999px; font-weight: 600;
+  transition: top .2s;
+}
+.skip-link:focus { top: 1rem; }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  html { font-size: 12px; }
+  .print-page { break-inside: avoid; }
+}
+
+/* Water-like touches */
+@keyframes ripple { to { transform: scale(1); opacity: 0; } }
+.ripple-dot {
+  position: absolute; border-radius: 9999px; pointer-events: none;
+  background: rgba(255, 255, 255, 0.45); transform: scale(0); opacity: 1;
+  animation: ripple 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes dialog-in { from { opacity: 0; transform: scale(0.94) translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+dialog[open] { animation: dialog-in 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+dialog[open]::backdrop { animation: fade-in 0.55s ease-out; }
+
+@layer base {
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button:not(:disabled):active, a.rounded-full:active { transform: scale(0.97); }
+  button, a.rounded-full { transition-property: color, background-color, border-color, transform, box-shadow; transition-duration: 0.45s; transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ripple-dot, dialog[open], dialog[open]::backdrop { animation: none; }
+}
+
+/* Devanagari must not be letter-spaced: it breaks conjuncts and splits words. */
+html[lang="ne"] *, html[lang="ne"] *::before, html[lang="ne"] *::after {
+  letter-spacing: normal !important;
+}

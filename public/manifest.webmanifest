@@ -1,0 +1,10 @@
+{
+  "name": "Pawan Prakriti English Secondary School",
+  "short_name": "Pawan Prakriti",
+  "description": "Education for Equality of Opportunity — Tikathali, Lalitpur, Nepal.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#14275a",
+  "icons": [{ "src": "/images/logo_hd.jpg", "sizes": "400x354", "type": "image/jpeg" }]
+}

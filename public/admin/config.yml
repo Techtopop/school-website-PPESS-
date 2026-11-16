@@ -1,0 +1,51 @@
+# Decap CMS — lets school staff edit news and crew from /admin without touching code.
+# SETUP REQUIRED: put the site in a GitHub repo, then set `repo` below and enable GitHub login
+# (Netlify Identity/Git Gateway, or a GitHub OAuth app). See README-EDITING.md.
+backend:
+  name: github
+  repo: YOUR-GITHUB-USER/YOUR-REPO   # <-- change this
+  branch: main
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: news
+    label: News & Events
+    files:
+      - name: news
+        label: News & Events
+        file: src/content/news.json
+        fields:
+          - label: Posts
+            name: items
+            widget: list
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+              - { label: Type, name: kind, widget: select, options: ["News", "Event", "Notice"] }
+              - { label: Summary, name: summary, widget: text }
+              - { label: Image, name: image, widget: image, required: false }
+              - { label: "Image consent given (image is hidden unless ticked)", name: imageConsent, widget: boolean, default: false, required: false }
+              - { label: "Event date (Events only — enables Add to calendar)", name: eventDate, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false }
+              - { label: Link, name: link, widget: string, required: false }
+  - name: crew
+    label: Our Crew
+    files:
+      - name: crew
+        label: Teachers & Staff
+        file: src/content/crew.json
+        fields:
+          - label: People
+            name: members
+            widget: list
+            summary: "{{fields.name}} — {{fields.role}}"
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Role, name: role, widget: string }
+              - { label: Group, name: group, widget: select, options: ["Leadership", "Teaching Faculty", "Support & Care"] }
+              - { label: Photo, name: photo, widget: image, required: false }
+              - { label: "Photo consent given (photo is hidden unless ticked)", name: photoConsent, widget: boolean, default: false, required: false }
+              - { label: Subjects, name: subjects, widget: string, required: false }
+              - { label: Short bio, name: bio, widget: text, required: false }

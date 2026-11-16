@@ -1,0 +1,1 @@
+{ "rewrites": [{ "source": "/((?!admin|images|assets).*)", "destination": "/index.html" }] }
